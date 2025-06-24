@@ -1,0 +1,53 @@
+.tiptap.ProseMirror {
+  --tt-inline-code-bg-color: var(--tt-gray-light-a-100);
+  --tt-inline-code-text-color: var(--tt-gray-light-a-700);
+  --tt-inline-code-border-color: var(--tt-gray-light-a-200);
+  --tt-codeblock-bg: #f7f7f8; // FIXED: light gray bg
+  --tt-codeblock-text: #1f1f1f;
+  --tt-codeblock-border: #e2e2e2;
+
+  .dark & {
+    // KEEP CODEBLOCK LIGHT IN DARK MODE
+    --tt-codeblock-bg: #f7f7f8; 
+    --tt-codeblock-text: #1f1f1f;
+    --tt-codeblock-border: #e2e2e2;
+
+    --tt-inline-code-bg-color: #f1f1f1;
+    --tt-inline-code-text-color: #2d2d2d;
+    --tt-inline-code-border-color: #e2e2e2;
+  }
+
+  // Inline code
+  code:not(pre code) {
+    background-color: var(--tt-inline-code-bg-color);
+    color: var(--tt-inline-code-text-color);
+    border: 1px solid var(--tt-inline-code-border-color);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.875em;
+    line-height: 1.4;
+    border-radius: 0.375rem;
+    padding: 0.1em 0.3em;
+  }
+
+  // Code blocks
+  pre {
+    background-color: var(--tt-codeblock-bg);
+    color: var(--tt-codeblock-text);
+    border: 1px solid var(--tt-codeblock-border);
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.875rem;
+    line-height: 1.5;
+
+    code {
+      background-color: transparent !important;
+      border: none !important;
+      color: inherit;
+      padding: 0;
+      font-size: inherit;
+    }
+  }
+}
