@@ -103,17 +103,31 @@
   transition: background-color 0.2s ease, color 0.2s ease;
   cursor: pointer;
   padding: 0.4rem;
-  color: #374151; /* gray-700 */
+  color: #374151; /* gray-700 for light mode */
 }
 
 .tiptap-toolbar button:hover {
   background-color: #f3f4f6;
 }
 
-/* Active state = orange background AND icon */
 .tiptap-toolbar button.is-active {
-  background-color: #fef3c7; /* soft orange bg (optional) */
-  color: #f97316; /* Tailwind orange-500 */
+  background-color: #fef3c7;
+  color: #f97316;
+  font-weight: 600;
+}
+
+/* ✅ Dark mode overrides */
+.dark .tiptap-toolbar button {
+  color: #d1d5db; /* gray-300 */
+}
+
+.dark .tiptap-toolbar button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .tiptap-toolbar button.is-active {
+  background-color: rgba(251, 191, 36, 0.1); /* yellow bg */
+  color: #facc15; /* yellow text */
   font-weight: 600;
 }
 
@@ -130,21 +144,28 @@
   width: 100%;
   min-height: var(--tt-toolbar-height);
 
-  /* NEW transparent blue background with blur */
   background: rgba(29, 78, 216, 0.1); /* blue-700 at 10% opacity */
-  backdrop-filter: blur(12px);        /* frosted glass effect */
+  backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   padding: 0 0.5rem;
+
   overflow-x: auto;
   overscroll-behavior-x: contain;
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+
+  scrollbar-width: thin;
+  -ms-overflow-style: auto;
 
   &::-webkit-scrollbar {
-    display: none;
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 3px;
   }
 }
+
 
