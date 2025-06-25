@@ -2,20 +2,23 @@ import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb";
 import Blog from "@/app/models/Blog";
 
+// ✅ Proper RouteContext type
+interface RouteContext {
+  params: {
+    id: string;
+  };
+}
+
 // ✅ GET blog by ID
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(req: NextRequest, context: RouteContext) {
+  const { id } = await context.params; // ✅ Fix: await context.params
   await dbConnect();
 
   try {
-    const blog = await Blog.findById(params.id);
-
+    const blog = await Blog.findById(id);
     if (!blog) {
       return NextResponse.json({ error: "Blog not found" }, { status: 404 });
     }
-
     return NextResponse.json(blog);
   } catch (error) {
     console.error("GET blog error:", error);
@@ -24,19 +27,15 @@ export async function GET(
 }
 
 // ✅ DELETE blog by ID
-export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(req: NextRequest, context: RouteContext) {
+  const { id } = await context.params; // ✅ Fix: await context.params
   await dbConnect();
 
   try {
-    const deleted = await Blog.findByIdAndDelete(params.id);
-
+    const deleted = await Blog.findByIdAndDelete(id);
     if (!deleted) {
       return NextResponse.json({ error: "Blog not found" }, { status: 404 });
     }
-
     return NextResponse.json({ message: "Deleted successfully" });
   } catch (error) {
     console.error("DELETE blog error:", error);
@@ -45,15 +44,12 @@ export async function DELETE(
 }
 
 // ✅ PUT blog by ID
-export async function PUT(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function PUT(req: NextRequest, context: RouteContext) {
+  const { id } = await context.params; // ✅ Fix: await context.params
   await dbConnect();
 
   try {
     const formData = await req.formData();
-
     const title = formData.get("title") as string;
     const author = formData.get("author") as string;
     const description = formData.get("description") as string;
@@ -69,14 +65,13 @@ export async function PUT(
     }
 
     let imageBase64: string | undefined = undefined;
-
     if (file && typeof file === "object") {
       const buffer = Buffer.from(await file.arrayBuffer());
       imageBase64 = `data:${file.type};base64,${buffer.toString("base64")}`;
     }
 
     const updated = await Blog.findByIdAndUpdate(
-      params.id,
+      id,
       {
         title,
         author,
