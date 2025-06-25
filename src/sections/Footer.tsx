@@ -35,10 +35,10 @@ const Footer = () => {
               <span className="mt-4 text-muted-foreground text-sm flex items-center">
                 Made by{" "}
                 <Link
-                  href="https://adaptifyagency.com"
+                  href="https://adaptifystudio.com"
                   className="font-semibold ml-1 underline underline-offset-4 hover:text-primary"
                 >
-                  Adaptify Agency
+                  Adaptify Studio
                 </Link>
               </span>
             </div>
