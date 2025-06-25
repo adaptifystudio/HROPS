@@ -180,3 +180,17 @@ export const SidebarLink = ({
     </Link>
   );
 };
+
+
+export const SidebarLayout = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="flex w-full min-h-screen flex-col md:flex-row overflow-hidden bg-white text-neutral-900 dark:bg-neutral-800 dark:text-neutral-100">
+      <Sidebar>
+        <SidebarBody className="justify-between gap-10">{children}</SidebarBody>
+      </Sidebar>
+    </div>
+  );
+};
+
+
+
