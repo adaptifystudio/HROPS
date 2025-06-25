@@ -1,8 +1,12 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb";
 import Blog from "@/app/models/Blog";
 
-export async function GET(req: Request, { params }: { params: { id: string } }) {
+// ✅ GET blog by ID
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   await dbConnect();
 
   try {
@@ -19,12 +23,15 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
   }
 }
 
-export async function DELETE(req: Request, context: { params: { id: string } }) {
+// ✅ DELETE blog by ID
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   await dbConnect();
-  const { id } = context.params;
 
   try {
-    const deleted = await Blog.findByIdAndDelete(id);
+    const deleted = await Blog.findByIdAndDelete(params.id);
 
     if (!deleted) {
       return NextResponse.json({ error: "Blog not found" }, { status: 404 });
@@ -37,10 +44,12 @@ export async function DELETE(req: Request, context: { params: { id: string } }) 
   }
 }
 
-// ✅ PUT (Update) blog by ID — FIXED to support TOC without changing anything else
-export async function PUT(req: Request, context: { params: { id: string } }) {
+// ✅ PUT blog by ID
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   await dbConnect();
-  const { id } = context.params;
 
   try {
     const formData = await req.formData();
@@ -51,7 +60,6 @@ export async function PUT(req: Request, context: { params: { id: string } }) {
     const content = formData.get("content") as string;
     const file = formData.get("image") as File | null;
 
-    // ✅ Fix: parse TOC from string (if exists)
     const tocRaw = formData.get("toc") as string;
     let toc: string[] = [];
     try {
@@ -68,13 +76,13 @@ export async function PUT(req: Request, context: { params: { id: string } }) {
     }
 
     const updated = await Blog.findByIdAndUpdate(
-      id,
+      params.id,
       {
         title,
         author,
         description,
         content,
-        toc, // ✅ Add TOC here
+        toc,
         ...(imageBase64 && { imageBase64 }),
       },
       { new: true }
