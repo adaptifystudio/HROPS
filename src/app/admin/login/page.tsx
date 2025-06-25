@@ -8,29 +8,28 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
-
-export default function RegistrationFormWithImages() {
+export default function Page() {
   return (
     <div className="grid min-h-screen w-full grid-cols-1 md:grid-cols-2">
       <Form />
       <div className="relative z-20 hidden w-full items-center justify-center overflow-hidden border-l border-neutral-100 bg-white md:flex dark:border-neutral-800 dark:bg-neutral-900">
-      <div className="mx-auto max-w-sm">
-  <p
-    className={cn(
-      "text-center text-xl font-semibold text-red-600 dark:text-red-500"
-    )}
-  >
-    ⚠️ Restricted Area
-  </p>
-  <p
-    className={cn(
-      "mt-8 text-center text-base font-normal text-neutral-500 dark:text-neutral-400"
-    )}
-  >
-    This page is for administrators only. If you are not authorized, leave immediately or access will be denied.
-  </p>
-</div>
-
+        <div className="mx-auto max-w-sm">
+          <p
+            className={cn(
+              "text-center text-xl font-semibold text-red-600 dark:text-red-500"
+            )}
+          >
+            ⚠️ Restricted Area
+          </p>
+          <p
+            className={cn(
+              "mt-8 text-center text-base font-normal text-neutral-500 dark:text-neutral-400"
+            )}
+          >
+            This page is for administrators only. If you are not authorized,
+            leave immediately or access will be denied.
+          </p>
+        </div>
 
         <GridLineHorizontal
           className="left-1/2 top-4 -translate-x-1/2"
@@ -48,15 +47,12 @@ export default function RegistrationFormWithImages() {
           className="left-auto right-10 top-1/2 -translate-y-1/2"
           offset="-10px"
         />
-       
       </div>
     </div>
   );
 }
 
-
-
-export  function Form() {
+export function Form() {
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -144,7 +140,10 @@ export  function Form() {
             </p>
 
             <div className="relative mt-10">
-              <div className="absolute inset-0 flex items-center" aria-hidden="true">
+              <div
+                className="absolute inset-0 flex items-center"
+                aria-hidden="true"
+              >
                 <div className="w-full border-t border-neutral-300 dark:border-neutral-700" />
               </div>
               <div className="relative flex justify-center text-sm font-medium leading-6">
@@ -169,8 +168,6 @@ export  function Form() {
               <Link href="#" className="text-neutral-500 dark:text-neutral-300">
                 Admin Dashboard
               </Link>{" "}
-             
-              
               .
             </p>
           </div>
@@ -180,25 +177,17 @@ export  function Form() {
   );
 }
 
-
 const Logo = () => {
   return (
     <Link
       href="/"
       className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
     >
-      <Image
-        src="/images/logo-2.png"
-        alt="logo"
-        width={30}
-        height={30}
-      />
+      <Image src="/images/logo-2.png" alt="logo" width={30} height={30} />
       <span className="font-medium text-black dark:text-white">HROPS</span>
     </Link>
   );
 };
-
-
 
 const GridLineHorizontal = ({
   className,
@@ -229,7 +218,7 @@ const GridLineHorizontal = ({
         "[mask-composite:exclude]",
         "z-30",
         "dark:bg-[linear-gradient(to_right,var(--color-dark),var(--color-dark)_50%,transparent_0,transparent)]",
-        className,
+        className
       )}
     ></div>
   );
@@ -264,7 +253,7 @@ const GridLineVertical = ({
         "[mask-composite:exclude]",
         "z-30",
         "dark:bg-[linear-gradient(to_bottom,var(--color-dark),var(--color-dark)_50%,transparent_0,transparent)]",
-        className,
+        className
       )}
     ></div>
   );
