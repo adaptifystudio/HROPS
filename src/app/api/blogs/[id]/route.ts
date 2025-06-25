@@ -5,12 +5,12 @@ import Blog from "@/app/models/Blog";
 // ✅ GET blog by ID
 export async function GET(
   req: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: { id: string } }
 ) {
   await dbConnect();
 
   try {
-    const blog = await Blog.findById(context.params.id);
+    const blog = await Blog.findById(params.id);
 
     if (!blog) {
       return NextResponse.json({ error: "Blog not found" }, { status: 404 });
@@ -26,12 +26,12 @@ export async function GET(
 // ✅ DELETE blog by ID
 export async function DELETE(
   req: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: { id: string } }
 ) {
   await dbConnect();
 
   try {
-    const deleted = await Blog.findByIdAndDelete(context.params.id);
+    const deleted = await Blog.findByIdAndDelete(params.id);
 
     if (!deleted) {
       return NextResponse.json({ error: "Blog not found" }, { status: 404 });
@@ -47,7 +47,7 @@ export async function DELETE(
 // ✅ PUT blog by ID
 export async function PUT(
   req: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: { id: string } }
 ) {
   await dbConnect();
 
@@ -59,8 +59,8 @@ export async function PUT(
     const description = formData.get("description") as string;
     const content = formData.get("content") as string;
     const file = formData.get("image") as File | null;
-
     const tocRaw = formData.get("toc") as string;
+
     let toc: string[] = [];
     try {
       toc = JSON.parse(tocRaw);
@@ -68,7 +68,7 @@ export async function PUT(
       console.warn("Invalid TOC JSON:", tocRaw);
     }
 
-    let imageBase64 = undefined;
+    let imageBase64: string | undefined = undefined;
 
     if (file && typeof file === "object") {
       const buffer = Buffer.from(await file.arrayBuffer());
@@ -76,7 +76,7 @@ export async function PUT(
     }
 
     const updated = await Blog.findByIdAndUpdate(
-      context.params.id,
+      params.id,
       {
         title,
         author,
