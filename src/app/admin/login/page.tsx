@@ -52,7 +52,7 @@ export default function Page() {
   );
 }
 
-export function Form() {
+function Form() {
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -64,7 +64,7 @@ export function Form() {
       localStorage.setItem("admin-auth", "true");
 
       toast.success("Welcome Admin ✅", {
-        description: "Redirecting to dashboard...",
+        description: "Redirecting to dashboard",
       });
 
       setTimeout(() => {
