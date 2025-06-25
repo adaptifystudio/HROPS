@@ -5,12 +5,12 @@ import Blog from "@/app/models/Blog";
 // ✅ GET blog by ID
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   await dbConnect();
 
   try {
-    const blog = await Blog.findById(params.id);
+    const blog = await Blog.findById(context.params.id);
 
     if (!blog) {
       return NextResponse.json({ error: "Blog not found" }, { status: 404 });
@@ -26,12 +26,12 @@ export async function GET(
 // ✅ DELETE blog by ID
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   await dbConnect();
 
   try {
-    const deleted = await Blog.findByIdAndDelete(params.id);
+    const deleted = await Blog.findByIdAndDelete(context.params.id);
 
     if (!deleted) {
       return NextResponse.json({ error: "Blog not found" }, { status: 404 });
@@ -47,7 +47,7 @@ export async function DELETE(
 // ✅ PUT blog by ID
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   await dbConnect();
 
@@ -76,7 +76,7 @@ export async function PUT(
     }
 
     const updated = await Blog.findByIdAndUpdate(
-      params.id,
+      context.params.id,
       {
         title,
         author,
