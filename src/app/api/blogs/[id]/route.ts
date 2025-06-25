@@ -2,20 +2,15 @@ import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb";
 import Blog from "@/app/models/Blog";
 
-// ✅ Proper RouteContext type
-interface RouteContext {
-  params: {
-    id: string;
-  };
-}
-
 // ✅ GET blog by ID
-export async function GET(req: NextRequest, context: RouteContext) {
-  const { id } = await context.params; // ✅ Fix: await context.params
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { id: string } } // ← this is the correct and supported way
+) {
   await dbConnect();
 
   try {
-    const blog = await Blog.findById(id);
+    const blog = await Blog.findById(params.id);
     if (!blog) {
       return NextResponse.json({ error: "Blog not found" }, { status: 404 });
     }
@@ -27,12 +22,14 @@ export async function GET(req: NextRequest, context: RouteContext) {
 }
 
 // ✅ DELETE blog by ID
-export async function DELETE(req: NextRequest, context: RouteContext) {
-  const { id } = await context.params; // ✅ Fix: await context.params
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   await dbConnect();
 
   try {
-    const deleted = await Blog.findByIdAndDelete(id);
+    const deleted = await Blog.findByIdAndDelete(params.id);
     if (!deleted) {
       return NextResponse.json({ error: "Blog not found" }, { status: 404 });
     }
@@ -44,8 +41,10 @@ export async function DELETE(req: NextRequest, context: RouteContext) {
 }
 
 // ✅ PUT blog by ID
-export async function PUT(req: NextRequest, context: RouteContext) {
-  const { id } = await context.params; // ✅ Fix: await context.params
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   await dbConnect();
 
   try {
@@ -60,18 +59,18 @@ export async function PUT(req: NextRequest, context: RouteContext) {
     let toc: string[] = [];
     try {
       toc = JSON.parse(tocRaw);
-    } catch (err) {
-      console.warn("Invalid TOC JSON:", tocRaw);
+    } catch {
+      toc = [];
     }
 
-    let imageBase64: string | undefined = undefined;
+    let imageBase64: string | undefined;
     if (file && typeof file === "object") {
       const buffer = Buffer.from(await file.arrayBuffer());
       imageBase64 = `data:${file.type};base64,${buffer.toString("base64")}`;
     }
 
     const updated = await Blog.findByIdAndUpdate(
-      id,
+      params.id,
       {
         title,
         author,
