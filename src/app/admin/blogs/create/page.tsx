@@ -38,15 +38,7 @@ interface Links {
   onClick?: () => void;
 }
 
-export default function SimpleSidebarWithHover() {
-  return (
-    <div className="h-screen w-full flex">
-      <SidebarLayout>
-        <Dashboard />
-      </SidebarLayout>
-    </div>
-  );
-}
+
 
 export function SidebarLayout({
   className,
@@ -342,3 +334,16 @@ const Dashboard = () => {
     </div>
   );
 };
+
+
+const Page = () => {
+  return (
+    <div className="h-screen w-full flex">
+      <SidebarLayout>
+        <Dashboard />
+      </SidebarLayout>
+    </div>
+  );
+};
+
+export default Page;
