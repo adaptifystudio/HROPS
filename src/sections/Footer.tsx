@@ -46,124 +46,122 @@ const Footer = () => {
 
           {/* Navigation links */}
           <div className="grid-cols-2 gap-8 grid mt-16 xl:col-span-2 xl:mt-0">
-  <div className="md:grid md:grid-cols-2 md:gap-8">
-    <AnimationContainer delay={0.2}>
-      <div>
-        <h3 className="text-base font-medium text-foreground">
-          Services
-        </h3>
-        <ul className="mt-4 text-sm text-muted-foreground space-y-2">
-          <li>
-            <Link
-              href="#"
-              className="hover:text-primary transition-all"
-            >
-              Stratégie RH
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="#"
-              className="hover:text-primary transition-all"
-            >
-              Gestion des talents
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="#"
-              className="hover:text-primary transition-all"
-            >
-              Développement organisationnel
-            </Link>
-          </li>
-        </ul>
-      </div>
-    </AnimationContainer>
+            <div className="md:grid md:grid-cols-2 md:gap-8">
+              <AnimationContainer delay={0.2}>
+                <div>
+                  <h3 className="text-base font-medium text-foreground">
+                    Services
+                  </h3>
+                  <ul className="mt-4 text-sm text-muted-foreground space-y-2">
+                    <li>
+                      <Link
+                        href="#"
+                        className="hover:text-primary transition-all"
+                      >
+                        Stratégie RH
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="#"
+                        className="hover:text-primary transition-all"
+                      >
+                        Gestion des talents
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="#"
+                        className="hover:text-primary transition-all"
+                      >
+                        Développement organisationnel
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </AnimationContainer>
 
-    <AnimationContainer delay={0.3}>
-      <div className="mt-10 md:mt-0">
-        <h3 className="text-base font-medium text-foreground">
-          Connectez-vous avec nous
-        </h3>
-        <ul className="mt-4 text-sm text-muted-foreground space-y-2">
-          
-          <li>
-            <Link
-              href="https://www.linkedin.com/company/hrops-consulting/"
-              className="hover:text-primary transition-all"
-            >
-              LinkedIn
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="mailto:contact@hrops-consulting.com"
-              className="hover:text-primary transition-all"
-            >
-              Envoyez-nous un courriel
-            </Link>
-          </li>
-        </ul>
-      </div>
-    </AnimationContainer>
-  </div>
+              <AnimationContainer delay={0.3}>
+                <div className="mt-10 md:mt-0">
+                  <h3 className="text-base font-medium text-foreground">
+                    Connectez-vous avec nous
+                  </h3>
+                  <ul className="mt-4 text-sm text-muted-foreground space-y-2">
+                    <li>
+                      <Link
+                        href="https://www.linkedin.com/company/hrops-consulting/"
+                        className="hover:text-primary transition-all"
+                      >
+                        LinkedIn
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="mailto:contact@hrops-consulting.com"
+                        className="hover:text-primary transition-all"
+                      >
+                        Envoyez-nous un courriel
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </AnimationContainer>
+            </div>
 
-  <div className="md:grid md:grid-cols-2 md:gap-8">
-    <AnimationContainer delay={0.4}>
-      <div>
-        <h3 className="text-base font-medium text-foreground">
-          Ressources
-        </h3>
-        <ul className="mt-4 text-sm text-muted-foreground space-y-2">
-          <li>
-            <Link
-              href="/blog"
-              className="hover:text-primary transition-all"
-            >
-              Blog et informations
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/contact"
-              className="hover:text-primary transition-all"
-            >
-              Centre d'aide
-            </Link>
-          </li>
-        </ul>
-      </div>
-    </AnimationContainer>
+            <div className="md:grid md:grid-cols-2 md:gap-8">
+              <AnimationContainer delay={0.4}>
+                <div>
+                  <h3 className="text-base font-medium text-foreground">
+                    Ressources
+                  </h3>
+                  <ul className="mt-4 text-sm text-muted-foreground space-y-2">
+                    <li>
+                      <Link
+                        href="/blog"
+                        className="hover:text-primary transition-all"
+                      >
+                        Blog et informations
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/contact"
+                        className="hover:text-primary transition-all"
+                      >
+                        Centre d'aide
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </AnimationContainer>
 
-    <AnimationContainer delay={0.5}>
-      <div className="mt-10 md:mt-0">
-        <h3 className="text-base font-medium text-foreground">
-          Company
-        </h3>
-        <ul className="mt-4 text-sm text-muted-foreground space-y-2">     
-          <li>
-            <Link
-              href="/privacy"
-              className="hover:text-primary transition-all"
-            >
-              politique de confidentialité
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/terms"
-              className="hover:text-primary transition-all"
-            >
-              Conditions d'utilisation
-            </Link>
-          </li>
-        </ul>
-      </div>
-    </AnimationContainer>
-  </div>
-</div>
-
+              <AnimationContainer delay={0.5}>
+                <div className="mt-10 md:mt-0">
+                  <h3 className="text-base font-medium text-foreground">
+                    Company
+                  </h3>
+                  <ul className="mt-4 text-sm text-muted-foreground space-y-2">
+                    <li>
+                      <Link
+                        href="/privacy"
+                        className="hover:text-primary transition-all"
+                      >
+                        politique de confidentialité
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        href="/terms"
+                        className="hover:text-primary transition-all"
+                      >
+                        Conditions d'utilisation
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </AnimationContainer>
+            </div>
+          </div>
         </div>
 
         {/* Copyright */}

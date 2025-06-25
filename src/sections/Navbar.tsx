@@ -13,8 +13,15 @@ import {
 } from "@/components/ui/resizable-navbar";
 import { useState } from "react";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import Link from "next/link";
 
-export function NavbarDemo({ logoRef, forceCompact = false }: { logoRef: React.RefObject<HTMLDivElement>; forceCompact?: boolean }) {
+export function NavbarDemo({
+  logoRef,
+  forceCompact = false,
+}: {
+  logoRef: React.RefObject<HTMLDivElement>;
+  forceCompact?: boolean;
+}) {
   const navItems = [
     { name: "Services", link: "/#services" },
     { name: "Expertise", link: "/#expertise" },
@@ -33,7 +40,9 @@ export function NavbarDemo({ logoRef, forceCompact = false }: { logoRef: React.R
           <NavItems items={navItems} />
           <div className="flex items-center gap-4 z-50">
             <ThemeToggle />
-            <NavbarButton variant="primary">rendez-vous</NavbarButton>
+            <NavbarButton href="/contact" variant="primary">
+              rendez-vous
+            </NavbarButton>
           </div>
         </NavBody>
 
