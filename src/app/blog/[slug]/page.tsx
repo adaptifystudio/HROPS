@@ -3,6 +3,9 @@ import BlogModel from "@/app/models/Blog";
 import { notFound } from "next/navigation";
 import { BlogContentWithToc } from "./BlogContentWithToc";
 
+export async function generateStaticParams() {
+  return []; 
+}
 
 interface PageProps {
   params: {
