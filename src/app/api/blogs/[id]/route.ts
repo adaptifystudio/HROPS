@@ -2,10 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb";
 import Blog from "@/app/models/Blog";
 
-// ✅ GET blog by ID
+// ✅ GET
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } } // ← this is the correct and supported way
+  { params }: { params: { id: string } }
 ) {
   await dbConnect();
 
@@ -21,7 +21,7 @@ export async function GET(
   }
 }
 
-// ✅ DELETE blog by ID
+// ✅ DELETE
 export async function DELETE(
   req: NextRequest,
   { params }: { params: { id: string } }
@@ -40,7 +40,7 @@ export async function DELETE(
   }
 }
 
-// ✅ PUT blog by ID
+// ✅ PUT
 export async function PUT(
   req: NextRequest,
   { params }: { params: { id: string } }
@@ -59,8 +59,8 @@ export async function PUT(
     let toc: string[] = [];
     try {
       toc = JSON.parse(tocRaw);
-    } catch {
-      toc = [];
+    } catch (err) {
+      console.warn("Invalid TOC JSON:", tocRaw);
     }
 
     let imageBase64: string | undefined;
