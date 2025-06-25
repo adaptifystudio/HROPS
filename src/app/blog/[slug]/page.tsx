@@ -3,8 +3,15 @@ import BlogModel from "@/app/models/Blog";
 import { notFound } from "next/navigation";
 import { BlogContentWithToc } from "./BlogContentWithToc";
 
-export default async function BlogPage({ params }: { params: { slug: string } }) {
+type BlogPageProps = {
+  params: {
+    slug: string;
+  };
+};
+
+export default async function BlogPage({ params }: BlogPageProps) {
   await dbConnect();
+
   const blog = await BlogModel.findById(params.slug).lean();
 
   if (!blog) return notFound();
