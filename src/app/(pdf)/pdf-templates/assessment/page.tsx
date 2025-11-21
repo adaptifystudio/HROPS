@@ -22,10 +22,13 @@ interface AssessmentDoc {
 export default async function AssessmentPdfTemplate({
   searchParams,
 }: {
-  searchParams: { assessmentId?: string };
+  searchParams: Promise<{ assessmentId?: string }>;
 }) {
   await dbConnect();
-  const assessmentId = searchParams.assessmentId;
+
+  const resolvedParams = await searchParams;
+  const assessmentId = resolvedParams.assessmentId;
+
 
   if (!assessmentId)
     return (
