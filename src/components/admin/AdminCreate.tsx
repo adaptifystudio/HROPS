@@ -38,8 +38,6 @@ interface Links {
   onClick?: () => void;
 }
 
-
-
 export function SidebarLayout({
   className,
   children,
@@ -75,6 +73,13 @@ export function SidebarLayout({
         href: "/",
         icon: (
           <IconWorldWww className="h-5 w-5 text-neutral-700 dark:text-neutral-200" />
+        ),
+      },
+      {
+        label: "Diagnostics",
+        href: "/admin/assessments",
+        icon: (
+          <IconChecklist className="h-5 w-5 text-neutral-700 dark:text-neutral-200" />
         ),
       },
       mounted && {
@@ -334,7 +339,6 @@ const Dashboard = () => {
     </div>
   );
 };
-
 
 export default function AdminCreate() {
   return (

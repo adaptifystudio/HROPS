@@ -498,3 +498,85 @@
   margin: 0.5rem 0;
   line-height: 1.8;
 }
+
+
+/* Enable Tailwind Typography defaults */
+.prose {
+  color: #1a1a1a;
+  max-width: none;
+}
+
+.prose strong {
+  color: #111;
+  font-weight: 600;
+}
+
+.prose h1,
+.prose h2,
+.prose h3 {
+  color: #111;
+  font-weight: 700;
+  margin-top: 1.2em;
+  margin-bottom: 0.6em;
+}
+
+.prose p {
+  color: #333;
+  line-height: 1.7;
+  margin-bottom: 0.8em;
+}
+
+.prose li {
+  margin-left: 1em;
+}
+
+/* ---------------------------------------------------
+   HROps PDF Report Typography & Layout
+--------------------------------------------------- */
+.pdf-content {
+  font-family: "Inter", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #222;
+  line-height: 1.75;
+  font-weight: 400;
+  font-size: 15px;
+}
+
+.pdf-content h1,
+.pdf-content h2 {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #111;
+}
+
+.pdf-content h1 {
+  font-size: 1.9rem;
+  letter-spacing: -0.01em;
+}
+
+.pdf-content h2 {
+  font-size: 1.4rem;
+  border-left: 4px solid #f97316;
+  padding-left: 0.6rem;
+  margin-top: 1.5rem;
+}
+
+.pdf-content p {
+  margin-bottom: 0.75rem;
+  color: #333;
+}
+
+.pdf-content strong {
+  color: #000;
+  font-weight: 600;
+}
+
+.pdf-footer {
+  background: linear-gradient(90deg, #f97316, #fb923c, #facc15);
+  color: white;
+  padding: 2.5rem 0;
+  text-align: center;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+}
