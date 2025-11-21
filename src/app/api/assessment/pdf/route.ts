@@ -4,7 +4,7 @@ import puppeteer from "puppeteer-core";
 import dbConnect from "@/lib/mongodb";
 import Assessment from "@/app/models/Assessment";
 
-// ✅ Ensure Node.js runtime (Vercel serverless)
+// ✅ Ensure Node.js runtime for Puppeteer support on Vercel
 export const runtime = "nodejs";
 
 export async function POST(req: Request) {
@@ -21,32 +21,31 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Assessment not found" }, { status: 404 });
     }
 
-    // -------------------------------------------------
-    // 1️⃣  Launch Puppeteer with Chromium for serverless
-    // -------------------------------------------------
-    const executablePath = await chromium.executablePath();
+    // ✅ Automatically detect domain (no NEXT_PUBLIC_BASE_URL needed)
+    const origin = new URL(req.url).origin;
+    const templateUrl = `${origin}/pdf-templates/assessment?assessmentId=${assessmentId}`;
 
+    // -------------------------------------------------
+    // 1️⃣ Launch Puppeteer with @sparticuz/chromium-min
+    // -------------------------------------------------
     const browser = await puppeteer.launch({
       args: chromium.args,
-      executablePath: executablePath || undefined,
+      executablePath: await chromium.executablePath(),
       headless: true,
     });
 
     const page = await browser.newPage();
 
     // -------------------------------------------------
-    // 2️⃣  Load the HTML PDF Template
+    // 2️⃣ Navigate to the HTML PDF template
     // -------------------------------------------------
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-    const templateUrl = `${baseUrl}/pdf-templates/assessment?assessmentId=${assessmentId}`;
-
     await page.goto(templateUrl, {
       waitUntil: "networkidle0",
       timeout: 60000,
     });
 
     // -------------------------------------------------
-    // 3️⃣  Generate PDF buffer
+    // 3️⃣ Generate the PDF
     // -------------------------------------------------
     const pdfBuffer = await page.pdf({
       format: "A4",
@@ -62,7 +61,7 @@ export async function POST(req: Request) {
     await browser.close();
 
     // -------------------------------------------------
-    // 4️⃣  Return the file as a downloadable PDF
+    // 4️⃣ Return the file as a downloadable PDF
     // -------------------------------------------------
     return new Response(Buffer.from(pdfBuffer), {
       status: 200,
