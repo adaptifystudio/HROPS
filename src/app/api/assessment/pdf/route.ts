@@ -1,56 +1,35 @@
-// ✅ Force Node.js + Dynamic runtime for Puppeteer on Vercel
-export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
-
 import { NextResponse } from "next/server";
-import chromium from "@sparticuz/chromium-min";
-import puppeteer from "puppeteer-core";
 import dbConnect from "@/lib/mongodb";
 import Assessment from "@/app/models/Assessment";
+import playwright from "playwright-aws-lambda";
+
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
   try {
     await dbConnect();
 
     const { assessmentId } = await req.json();
-    if (!assessmentId) {
+    if (!assessmentId)
       return NextResponse.json({ error: "Missing assessmentId" }, { status: 400 });
-    }
 
     const assessment = await Assessment.findById(assessmentId).lean();
-    if (!assessment) {
+    if (!assessment)
       return NextResponse.json({ error: "Assessment not found" }, { status: 404 });
-    }
 
-    // ✅ Automatically detect domain (no NEXT_PUBLIC_BASE_URL needed)
+    // Automatically detect your deployed domain
     const origin = new URL(req.url).origin;
     const templateUrl = `${origin}/pdf-templates/assessment?assessmentId=${assessmentId}`;
 
-    // -------------------------------------------------
-    // 1️⃣ Launch Puppeteer with serverless Chromium
-    // -------------------------------------------------
-    const executablePath = await chromium.executablePath();
+    // ✅ Launch Playwright (Chromium) — works on Vercel without setup
+    const browser = await playwright.launchChromium();
+    const context = await browser.newContext();
+    const page = await context.newPage();
 
-    const browser = await puppeteer.launch({
-      args: chromium.args,
-      executablePath: executablePath || undefined,
-      headless: true,
-    });
+    await page.goto(templateUrl, { waitUntil: "networkidle" });
 
-    const page = await browser.newPage();
-
-    // -------------------------------------------------
-    // 2️⃣ Navigate to the HTML PDF template
-    // -------------------------------------------------
-    await page.goto(templateUrl, {
-      waitUntil: "networkidle0",
-      timeout: 60000,
-    });
-
-    // -------------------------------------------------
-    // 3️⃣ Generate the PDF
-    // -------------------------------------------------
-    const pdfBuffer = await page.pdf({
+    const pdf = await page.pdf({
       format: "A4",
       printBackground: true,
       margin: {
@@ -63,10 +42,7 @@ export async function POST(req: Request) {
 
     await browser.close();
 
-    // -------------------------------------------------
-    // 4️⃣ Return the file as a downloadable PDF
-    // -------------------------------------------------
-    return new Response(Buffer.from(pdfBuffer), {
+    return new Response(Buffer.from(pdf), {
       status: 200,
       headers: {
         "Content-Type": "application/pdf",
