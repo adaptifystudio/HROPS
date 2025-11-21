@@ -1,11 +1,12 @@
+// ✅ Force Node.js + Dynamic runtime for Puppeteer on Vercel
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 import { NextResponse } from "next/server";
 import chromium from "@sparticuz/chromium-min";
 import puppeteer from "puppeteer-core";
 import dbConnect from "@/lib/mongodb";
 import Assessment from "@/app/models/Assessment";
-
-// ✅ Ensure Node.js runtime for Puppeteer support on Vercel
-export const runtime = "nodejs";
 
 export async function POST(req: Request) {
   try {
@@ -26,11 +27,13 @@ export async function POST(req: Request) {
     const templateUrl = `${origin}/pdf-templates/assessment?assessmentId=${assessmentId}`;
 
     // -------------------------------------------------
-    // 1️⃣ Launch Puppeteer with @sparticuz/chromium-min
+    // 1️⃣ Launch Puppeteer with serverless Chromium
     // -------------------------------------------------
+    const executablePath = await chromium.executablePath();
+
     const browser = await puppeteer.launch({
       args: chromium.args,
-      executablePath: await chromium.executablePath(),
+      executablePath: executablePath || undefined,
       headless: true,
     });
 
