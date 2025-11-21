@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
-import puppeteer from "puppeteer";
+import chromium from "@sparticuz/chromium";
+import puppeteer from "puppeteer-core";
 import dbConnect from "@/lib/mongodb";
 import Assessment from "@/app/models/Assessment";
+
+export const runtime = "nodejs";
 
 export async function POST(req: Request) {
   try {
@@ -15,30 +18,25 @@ export async function POST(req: Request) {
     if (!assessment)
       return NextResponse.json({ error: "Assessment not found" }, { status: 404 });
 
-    // -------------------------------------------------
-    // 1️⃣  Launch Puppeteer (Headless Chrome)
-    // -------------------------------------------------
-    const browser = await puppeteer.launch({
-      headless: true, // ✅ use boolean to match TypeScript definition
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    });
+    const origin = new URL(req.url).origin;
+    const templateUrl = `${origin}/pdf-templates/assessment?assessmentId=${assessmentId}`;
+
+    const isLocal = !process.env.VERCEL;
+
+    const browser = isLocal
+      ? await (await import("puppeteer")).launch({
+          headless: true,
+          args: ["--no-sandbox", "--disable-setuid-sandbox"],
+        })
+      : await puppeteer.launch({
+          args: chromium.args,
+          executablePath: await chromium.executablePath(),
+          headless: true,
+        });
 
     const page = await browser.newPage();
+    await page.goto(templateUrl, { waitUntil: "networkidle0", timeout: 60000 });
 
-    // -------------------------------------------------
-    // 2️⃣  Go to your HTML PDF Template
-    // -------------------------------------------------
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-    const templateUrl = `${baseUrl}/pdf-templates/assessment?assessmentId=${assessmentId}`;
-
-    await page.goto(templateUrl, {
-      waitUntil: "networkidle0",
-      timeout: 60000,
-    });
-
-    // -------------------------------------------------
-    // 3️⃣  Generate the PDF
-    // -------------------------------------------------
     const pdfBuffer = await page.pdf({
       format: "A4",
       printBackground: true,
@@ -47,21 +45,17 @@ export async function POST(req: Request) {
 
     await browser.close();
 
-    // -------------------------------------------------
-    // 4️⃣  Return the file as a real PDF download
-    // -------------------------------------------------
-    // ✅ Explicitly cast the buffer type so Response accepts it
-    return new Response(pdfBuffer as unknown as BodyInit, {
+    return new Response(Buffer.from(pdfBuffer), {
       status: 200,
       headers: {
         "Content-Type": "application/pdf",
         "Content-Disposition": 'attachment; filename="Diagnostic_HROps.pdf"',
       },
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error("❌ PDF generation error:", error);
     return NextResponse.json(
-      { error: "Internal PDF generation error" },
+      { error: "Internal PDF generation error", details: error?.message },
       { status: 500 }
     );
   }
