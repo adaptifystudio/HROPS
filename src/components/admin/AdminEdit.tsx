@@ -87,13 +87,7 @@ export function SidebarLayout({
           <IconWorldWww className="h-5 w-5 text-neutral-700 dark:text-neutral-200" />
         ),
       },
-      {
-        label: "Diagnostics",
-        href: "/admin/assessments",
-        icon: (
-          <IconChecklist className="h-5 w-5 text-neutral-700 dark:text-neutral-200" />
-        ),
-      },
+      
       mounted && {
         label: theme === "dark" ? "Light Mode" : "Dark Mode",
         href: "#",
